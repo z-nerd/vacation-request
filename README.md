@@ -32,3 +32,48 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+## Setup
+```bash
+yarn create next-app vacation-request
+```
+
+### Sass
+```bash
+yarn add sass
+```
+
+## Redis
+```bash
+yarn add ioredis
+```
+
+### mongodb
+```bash
+yarn add mongodb
+```
+
+### JWT
+```bash
+yarn add jsonwebtoken
+yarn add @types/jsonwebtoken --dev
+```
+
+### Bcrypt
+```bash
+yarn add bcrypt
+yarn add @types/bcrypt --dev
+```
+
+## User Agent Parser
+```bash
+yarn add ua-parser-js
+yarn add @types/ua-parser-js --dev
+```
+
+### Validator
+```bash
+yarn add validator validate
+yarn add @types/validator --dev
+```
