@@ -25,7 +25,7 @@ export class CrudService {
 
         return this.client
     }
-    
+
 
     disconnect = async () => {
         return await this.client.close()
@@ -48,7 +48,7 @@ export class CrudService {
         if (result.acknowledged && result.insertedId)
             return { id: result.insertedId }
 
-        
+
         throw new AppError({
             cause: { type: 'MONGODB', result },
             status: 500,
@@ -87,26 +87,80 @@ export class CrudService {
     }
 
 
+    findAll = async <T>(
+        databaseName: string,
+        collectionName: string,
+        filter: Filter<T & Document>,
+        skip: number = 0,
+        limit: number = 10,
+        sort?: TRequireOne<Partial<{ [K in keyof T]: number }>>,
+        options?: FindOptions,
+    ) => {
+        this.client = await this.#getClient()
+        this.db = this.client.db(databaseName)
+
+        const result = await (this.db
+            .collection(collectionName)
+            .aggregate([
+                { $match: filter as Document },
+                { $sort: sort ?? { _id: 1 } },
+                {
+                    $facet: {
+                        metadata: [
+                            { $count: 'count' },
+                        ],
+                        data: [
+                            { $skip: skip },
+                            { $limit: limit }
+                        ],
+                    },
+                },
+
+                // { $setWindowFields: { output: { totalCount: { $count: {} } } } },
+                // { $skip: skip },
+                // { $limit: limit } 
+            ])
+            // .project({
+            //     count: { $arrayElemAt: ['$metadata.count', 0] },
+            //     // data: { $last: '$data' },
+            //     data: 1,
+            // })
+            .toArray())
+        
+
+        if (result.length > 0 &&
+            result[0].data.length > 0)
+            return {
+                skip,
+                limit,
+                count: result[0].metadata[0].count,
+                data: result[0].data,
+            } as { count: number, skip: number, limit: number, data: T[] }
+
+        return null
+    }
+
+
     update = async <T>(
         databaseName: string,
         collectionName: string,
         filter: Filter<T & Document>,
-        update: UpdateFilter<T & Document> | Partial<T & Document> ,
+        update: UpdateFilter<T & Document> | Partial<T & Document>,
         options?: UpdateOptions
     ) => {
         this.client = await this.#getClient()
         this.db = this.client.db(databaseName)
 
         const result = await this.db
-        .collection(collectionName)
-        .updateOne(filter as Document, update, options)
+            .collection(collectionName)
+            .updateOne(filter as Document, update, options)
 
         return result
 
         if (result.acknowledged)
             return { id: filter._id as string }
-        
-        
+
+
         throw new AppError({
             cause: { type: 'MONGODB', result },
             status: 500,
@@ -125,14 +179,14 @@ export class CrudService {
         this.db = this.client.db(databaseName)
 
         const result = await this.db
-        .collection(collectionName)
-        .deleteOne(filter as Document, options) 
+            .collection(collectionName)
+            .deleteOne(filter as Document, options)
 
 
         if (result.acknowledged)
             return { id: filter._id as string }
-        
-        
+
+
         throw new AppError({
             cause: { type: 'MONGODB', result },
             status: 500,

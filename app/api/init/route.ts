@@ -2,7 +2,7 @@ import { Check } from "@/lib/check"
 import { AppError, ErrorHandler } from "@/lib/error"
 import { CrudService, UserService } from "@/lib/service"
 import { NextRequest, NextResponse } from "next/server"
-import { IUser } from "@/sdk/model"
+import { IUser, IVacation } from "@/sdk/model"
 import { genSaltSync, hashSync } from "bcrypt"
 
 export async function POST(request: NextRequest) {
@@ -50,6 +50,13 @@ export async function POST(request: NextRequest) {
             { unique: true })
         
         
+        const statusIndex = await crudService.createIndex<IVacation>(
+            'vacation-request',
+            'vacation',
+            { status: 1 },
+            { unique: false })
+        
+        
         const adminUser = await crudService.create<IUser>(
             'vacation-request',
             'users',
@@ -66,7 +73,7 @@ export async function POST(request: NextRequest) {
         )
         
 
-        return NextResponse.json({usernameIndex, emailIndex, phoneIndex, adminUser})
+        return NextResponse.json({usernameIndex, emailIndex, phoneIndex, statusIndex, adminUser})
     } catch (error: unknown) {
         const {status, ...handler} = ErrorHandler(error, apiKey, ip, ua)
 

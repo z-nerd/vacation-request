@@ -7,7 +7,7 @@ import { decodAccessToken } from "@/lib/jwt"
 export interface CheckProps {
     request: NextRequest
     method: 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT'
-    subject: 'users' | 'init'
+    subject: 'users' | 'init' | 'vacation'
 }
 
 export const Check = (checkApiProps: CheckProps) => {
@@ -50,7 +50,7 @@ export const Check = (checkApiProps: CheckProps) => {
 
             if(tUser) 
                 if(roles.includes(tUser.role)) 
-                    return
+                    return tUser
         }
 
         throw new AppError({
