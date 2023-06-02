@@ -286,7 +286,7 @@
 					"response": []
 				},
 				{
-					"name": "getRequest",
+					"name": "getRequests",
 					"event": [
 						{
 							"listen": "test",
@@ -306,7 +306,7 @@
 						"header": [
 							{
 								"key": "token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiX2lkIjoiNjQ3ODZlMTAxMjVjZmQzMTM5MDQ3ZDI2IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJmdWxsbmFtZSI6ImFkbWluIiwicGhvbmUiOiIwOTEyMzQ1Njc4OSIsImpvaW5EYXRldGltZSI6IjIwMjMtMDYtMDFUMTA6MDg6MTYuMTE0WiIsImJpcnRoZGF5IjoiMjAyMy0wNi0wMVQxMDowODoxNi4xMTRaIiwiaWF0IjoxNjg1NjI0ODU5LCJleHAiOjE2ODU2MjU0NTl9.vlEnv1xRyI5VliGoD2WVgJrqQIAT3shPt-arm3aDMQg",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiX2lkIjoiNjQ3ODZlMTAxMjVjZmQzMTM5MDQ3ZDI2IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJmdWxsbmFtZSI6ImFkbWluIiwicGhvbmUiOiIwOTEyMzQ1Njc4OSIsImpvaW5EYXRldGltZSI6IjIwMjMtMDYtMDFUMTA6MDg6MTYuMTE0WiIsImJpcnRoZGF5IjoiMjAyMy0wNi0wMVQxMDowODoxNi4xMTRaIiwiaWF0IjoxNjg1NzI3NDgwLCJleHAiOjE2ODU3MjgwODB9.SGUNaEmjnzTARRhvj95dydPBEZatYwwSYvy2tpI9RJ4",
 								"type": "text"
 							}
 						],
@@ -326,6 +326,53 @@
 							],
 							"path": [
 								"vacation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRequestById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log('hell')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiX2lkIjoiNjQ3ODZlMTAxMjVjZmQzMTM5MDQ3ZDI2IiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJmdWxsbmFtZSI6ImFkbWluIiwicGhvbmUiOiIwOTEyMzQ1Njc4OSIsImpvaW5EYXRldGltZSI6IjIwMjMtMDYtMDFUMTA6MDg6MTYuMTE0WiIsImJpcnRoZGF5IjoiMjAyMy0wNi0wMVQxMDowODoxNi4xMTRaIiwiaWF0IjoxNjg1NzI3NDgwLCJleHAiOjE2ODU3MjgwODB9.SGUNaEmjnzTARRhvj95dydPBEZatYwwSYvy2tpI9RJ4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullname\": \"zero\", \n    \"from\": \"1995/02/16\",\n    \"to\": \"1995/02/16\",\n    \"description\": \"need rest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vacation-request-baseUrl}}/vacation/64789410125cfd3139047d37",
+							"host": [
+								"{{vacation-request-baseUrl}}"
+							],
+							"path": [
+								"vacation",
+								"64789410125cfd3139047d37"
 							]
 						}
 					},
