@@ -42,21 +42,21 @@ export const decodAccessToken = <T> (token: string) => {
         if (e.name === "TokenExpiredError")
             throw new AppError({
                 cause: { type: 'JWT', name: 'TokenExpiredError' },
-                status: 406,
+                status: 401,
                 message: `TokenExpiredError`,
             })
 
         if (e.name === "JsonWebTokenError")
             throw new AppError({
                 cause: { type: 'JWT', name: 'JsonWebTokenError' },
-                status: 406,
+                status: 401,
                 message: `JsonWebTokenError`,
             })
 
         if (e.name === "NotBeforeError")
             throw new AppError({
                 cause: { type: 'JWT', name: 'NotBeforeError' },
-                status: 406,
+                status: 401,
                 message: `NotBeforeError: Thrown if current time is before the nbf claim.`,
             })
     }
@@ -74,21 +74,21 @@ export const decodRefreshToken = (token: string) => {
         if (e.name === "TokenExpiredError")
             throw new AppError({
                 cause: { type: 'JWT', name: 'TokenExpiredError' },
-                status: 406,
+                status: 401,
                 message: `TokenExpiredError`,
             })
 
         if (e.name === "JsonWebTokenError")
             throw new AppError({
                 cause: { type: 'JWT', name: 'JsonWebTokenError' },
-                status: 406,
+                status: 401,
                 message: `JsonWebTokenError`,
             })
 
         if (e.name === "NotBeforeError")
             throw new AppError({
                 cause: { type: 'JWT', name: 'NotBeforeError' },
-                status: 406,
+                status: 401,
                 message: `NotBeforeError: Thrown if current time is before the nbf claim.`,
             })
     }

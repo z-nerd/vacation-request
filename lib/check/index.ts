@@ -15,7 +15,7 @@ export const Check = (checkApiProps: CheckProps) => {
     const apiKey = `${checkApiProps.method}-${checkApiProps.request.nextUrl.pathname}`
     const ip = checkApiProps.request.ip || checkApiProps.request.headers.get('host') || ''
     const ua = checkApiProps.request.headers.get('user-agent') || ''
-    const token = checkApiProps.request.headers.get('token') || ''
+    const token = checkApiProps.request.headers.get('token')
 
 
     const spam = async (totallCall: number,
@@ -45,7 +45,8 @@ export const Check = (checkApiProps: CheckProps) => {
 
 
     const auth = async (roles: string[],) => {
-        if(token) {
+        if(token !== undefined &&
+           token !== null) {
             const tUser = decodAccessToken<IUser>(token)
 
             if(tUser) 

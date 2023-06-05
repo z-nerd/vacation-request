@@ -44,4 +44,10 @@ yarn add @types/ua-parser-js --dev
 ```bash
 yarn add validator validate
 yarn add @types/validator --dev
-``` -->
+```
+
+### React Custom Hook
+```bash
+yarn add react-use @tanstack/react-query @tanstack/react-query-devtools
+```
+-->

@@ -2,26 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+// :root {
+//   --foreground-rgb: 0, 0, 0;
+//   --background-start-rgb: 214, 219, 220;
+//   --background-end-rgb: 255, 255, 255;
+// }
+
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --foreground-rgb: 255, 255, 255;
+//     --background-start-rgb: 0, 0, 0;
+//     --background-end-rgb: 0, 0, 0;
+//   }
+// }
+
+// body {
+//   color: rgb(var(--foreground-rgb));
+//   background: linear-gradient(
+//       to bottom,
+//       transparent,
+//       rgb(var(--background-end-rgb))
+//     )
+//     rgb(var(--background-start-rgb));
+// }
+
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+  --primary-color: 0, 0, 0;
+  --on-primary-color: 0, 0, 0;
+  --primary-color-variant: 0, 0, 0;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+  --secondary-color: 0, 0, 0;
+  --on-secondary-color: 0, 0, 0;
+  --secondary-color-variant: 0, 0, 0;
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+
+  --background-color: 0, 0, 0;
+  --on-background-color: 0, 0, 0;
+
+  --surface-color: 0, 0, 0;
+  --on-surface-color: 0, 0, 0;
+
+  --error-color: 0, 0, 0;
+  --on-error-color: 0, 0, 0;
+
+  --warn-color: 0, 0, 0;
+  --on-warn-color: 0, 0, 0;
+
+  --info-color: 0, 0, 0;
+  --on-info-color: 0, 0, 0;
+
+  --success-color: 0, 0, 0;
+  --on-success-color: 0, 0, 0;
 }
