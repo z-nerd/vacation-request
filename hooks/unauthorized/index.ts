@@ -6,10 +6,10 @@ import { useEffect } from "react";
 import { useLocalStorage } from "react-use";
 
 
-const refresh = (token: string) => {
+export const refreshApi = () => {
   return useMutation({
-    mutationKey: ['refresh', token],
-    mutationFn: () => fetcher<IRefreshResult>('/api/login/refresh', {
+    mutationKey: ['refresh'],
+    mutationFn: (token: string) => fetcher<IRefreshResult>('/api/login/refresh', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,12 +25,12 @@ export const userRedirectLogin = (status: number | undefined) => {
   const router = useRouter()
   const [refreshToken] = useLocalStorage('refreshToken')
   const [accessToken, setAccessToken] = useLocalStorage('accessToken')
-  const { data, error, mutate } = refresh(String(refreshToken || ''))
+  const { data, error, mutate } = refreshApi()
 
   
   useEffect(() => {
     if (status === 401) {
-      if (!error) mutate()
+      if (!error) mutate(String(refreshToken || ''))
       if (error) router.push('/login')
     }
   }, [status, error])
@@ -43,4 +43,20 @@ export const userRedirectLogin = (status: number | undefined) => {
         window.location.reload()
       }
   }, [status, data])
+}
+
+
+export const useRefreshLogin = () => {
+  const {data, mutate} = refreshApi()
+  const [refreshToken] = useLocalStorage<string>('refreshToken')
+  const [,setAccessToken] = useLocalStorage<string>('accessToken')
+  
+  useEffect(() => {
+      if(refreshToken) {
+          mutate(refreshToken)
+      }
+
+  }, [refreshToken]) 
+
+  useEffect(() => (data) && setAccessToken(data.accessToken), [data])
 }

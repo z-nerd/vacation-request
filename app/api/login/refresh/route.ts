@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { apiKey, ip, ua, spam } = Check({ request, method: 'POST', subject: 'users' })
 
     try {
-        await spam(15, 60, [120, 240])
+        await spam(25, 60, [120, 240])
         const token = request.headers.get('r-token') || ''
         const rUser = decodRefreshToken(token)
 

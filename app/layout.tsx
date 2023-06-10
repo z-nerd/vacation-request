@@ -1,5 +1,6 @@
 import { ReactQueryProviders } from '@/sdk/utility'
 import './globals.scss'
+import { LayoutClient } from './layout-client'
 
 export const metadata = {
   title: 'Create Next App',
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ReactQueryProviders>
+          <LayoutClient />
           {children}
         </ReactQueryProviders>
       </body>
