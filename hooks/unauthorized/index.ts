@@ -2,8 +2,8 @@ import { IRefreshResult } from "@/sdk/model/api";
 import { fetcher } from "@/sdk/utility";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useLocalStorage } from "react-use";
+import { useEffect, useState } from "react";
+import { useBrowserStorage } from "../browser-storage";
 
 
 export const refreshApi = () => {
@@ -21,42 +21,35 @@ export const refreshApi = () => {
 }
 
 
-export const userRedirectLogin = (status: number | undefined) => {
-  const router = useRouter()
-  const [refreshToken] = useLocalStorage('refreshToken')
-  const [accessToken, setAccessToken] = useLocalStorage('accessToken')
-  const { data, error, mutate } = refreshApi()
+export const useRefreshLogin = () => {
+  const { data, mutate } = refreshApi()
+  const { refreshToken, setAccessToken } = useBrowserStorage()
 
-  
   useEffect(() => {
-    if (status === 401) {
-      if (!error) mutate(String(refreshToken || ''))
-      if (error) router.push('/login')
+    if (refreshToken) {
+      mutate(refreshToken)
     }
-  }, [status, error])
 
+  }, [refreshToken])
 
-  useEffect(() => {
-    if (status === 401)
-      if (data) {
-        setAccessToken(data.accessToken)
-        window.location.reload()
-      }
-  }, [status, data])
+  useEffect(() => (data) && setAccessToken(data.accessToken), [data])
 }
 
 
-export const useRefreshLogin = () => {
-  const {data, mutate} = refreshApi()
-  const [refreshToken] = useLocalStorage<string>('refreshToken')
-  const [,setAccessToken] = useLocalStorage<string>('accessToken')
-  
+export const useNeedLogin = (redirectLogin: boolean) => {
+  const router = useRouter()
+  const { refreshToken, accessToken } = useBrowserStorage()
+  const [isUserLogin, setIsUserLogin] = useState(false)
+
   useEffect(() => {
-      if(refreshToken) {
-          mutate(refreshToken)
-      }
+    if (!refreshToken && !accessToken) {
+      setIsUserLogin(state => false)
+      if (redirectLogin) router.push('/login')
+    } else {
+      setIsUserLogin(state => true)
+    }
 
-  }, [refreshToken]) 
+  }, [isUserLogin, refreshToken, accessToken])
 
-  useEffect(() => (data) && setAccessToken(data.accessToken), [data])
+  return { isUserLogin }
 }

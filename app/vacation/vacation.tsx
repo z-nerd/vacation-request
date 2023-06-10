@@ -1,19 +1,16 @@
 'use client'
-import { useLocalStorage } from "react-use"
 import { useGetVacationList } from "./hook"
-import { userRedirectLogin } from "@/hooks"
+import { useBrowserStorage } from "@/hooks"
 
 
 export interface VacationListProps {
-  // OnResult: (data: any) => void
-  // OnError: (error: any) => void
 }
 
 export const VacationList = ({}: VacationListProps) => {
-  const [accessToken] = useLocalStorage('accessToken')
-  const token = String(accessToken || '')
+  const {accessToken} = useBrowserStorage()
+  const token = accessToken || ''
   const { data, error } = useGetVacationList(token)
-  userRedirectLogin((error as any)?.status)
+  
 
   return (
     <>

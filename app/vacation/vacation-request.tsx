@@ -1,18 +1,17 @@
 'use client'
-import { useLocalStorage } from "react-use"
 import { handleVacationRequestSubmit, usePostVacationRequest } from "./hook"
-import { userRedirectLogin } from "@/hooks"
+import { useBrowserStorage, useNeedLogin } from "@/hooks"
 
 
 export interface VacationRequestProps {
 }
 
 export const VacationRequest = ({ }: VacationRequestProps) => {
-  const [accessToken] = useLocalStorage('accessToken')
-  const token = String(accessToken || '')
-
+  useNeedLogin(true)
+  const { accessToken } = useBrowserStorage()
+  const token = accessToken || ''
   const { data, isLoading, isSuccess, error, mutate } = usePostVacationRequest(token)
-  userRedirectLogin((error as any)?.status)
+
 
   return (
     <>

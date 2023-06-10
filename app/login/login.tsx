@@ -3,9 +3,9 @@
 import { useState } from "react"
 import { LoginForm } from "./login-form"
 import { VerifyForm } from "./verify-form"
-import { useLocalStorage } from "react-use"
 import { useRouter } from 'next/navigation'
 import { ILoginResult } from "@/sdk/model/api"
+import { useBrowserStorage } from "@/hooks"
 
 
 export interface LoginProp {
@@ -16,9 +16,8 @@ export const Login = ({ }: LoginProp) => {
     const router = useRouter()
     const [loginResult, setLoginResult] = useState<ILoginResult | null>(null)
     const [loginError, setLoginError] = useState<any | null>(null)
+    const { setRefreshToken, setAccessToken } = useBrowserStorage()
 
-    const [accessToken, setAccessToken] = useLocalStorage('accessToken')
-    const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken')
 
     return (
         <>
