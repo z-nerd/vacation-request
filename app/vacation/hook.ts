@@ -23,12 +23,11 @@ export const useGetVacationList = (token: string) => {
 export type VacationRequestFormData = Omit<IVacation, 'id' | 'status' | 'requestedDatetime'>
 
 export const usePostVacationRequest = (
-    token: string,
-    vacation?: VacationRequestFormData
+    token: string
 ) => {
     return useMutation({
-        mutationKey: ['postVacationRequest', Object.values(vacation || {})],
-        mutationFn: () => fetcher('/api/vacation', {
+        mutationKey: ['postVacationRequest'],
+        mutationFn: (vacation: VacationRequestFormData) => fetcher('/api/vacation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,17 +41,7 @@ export const usePostVacationRequest = (
 
 
 
-export interface handleVacationRequestSubmitProps {
-    event: FormEvent<HTMLFormElement>,
-    OnSubmit: (data: VacationRequestFormData) => void
-}
-
-export const handleVacationRequestSubmit = async (
-    {
-        event,
-        OnSubmit,
-    }: handleVacationRequestSubmitProps
-) => {
+export const handleVacationRequestSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const txtFormErrorRef = document.querySelector('form > span.error-form') as HTMLSpanElement
     const txtFullname: HTMLInputElement = event.currentTarget.fullname
@@ -88,13 +77,14 @@ export const handleVacationRequestSubmit = async (
 
     const error: IVError | null = RequestVacation(formData)
 
-    if (!error) {
-        OnSubmit(formData)
-    } else {
+    if (error) {
         if (error?.fullname) txtFullnameErrorRef.textContent = error.fullname
         if (error?.from) txtFromErrorRef.textContent = error.from
         if (error?.to) txtToErrorRef.textContent = error.to
         if (error?.description) txtDescriptionErrorRef.textContent = error.description
     }
     // btnSubmitRef.disabled = false
+
+
+    return { data: formData, error }
 }
