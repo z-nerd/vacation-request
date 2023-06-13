@@ -9,8 +9,7 @@ export interface VacationRequestProps {
 export const VacationRequest = ({ }: VacationRequestProps) => {
   useNeedLogin(true)
   const { accessToken } = useBrowserStorage()
-  const token = accessToken || ''
-  const { data, isLoading, isSuccess, error, mutate } = usePostVacationRequest(token)
+  const { data, isLoading, isSuccess, error, mutate } = usePostVacationRequest()
 
 
   return (
@@ -21,7 +20,10 @@ export const VacationRequest = ({ }: VacationRequestProps) => {
         noValidate
         onSubmit={(e) => {
           const handler = handleVacationRequestSubmit(e)
-          if (handler.error === null) mutate(handler.data)
+          if (handler.error === null) mutate({
+            token: accessToken || '', 
+            vacation: handler.data
+          })
         }}>
         <span className="error-form" aria-live="polite">{String((error as any)?.error?.message || '')}</span>
 

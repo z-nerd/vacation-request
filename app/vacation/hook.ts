@@ -22,12 +22,11 @@ export const useGetVacationList = (token: string) => {
 
 export type VacationRequestFormData = Omit<IVacation, 'id' | 'status' | 'requestedDatetime'>
 
-export const usePostVacationRequest = (
-    token: string
-) => {
+interface MutationFnProps { token: string, vacation: VacationRequestFormData }
+export const usePostVacationRequest = () => {
     return useMutation({
         mutationKey: ['postVacationRequest'],
-        mutationFn: (vacation: VacationRequestFormData) => fetcher('/api/vacation', {
+        mutationFn: ({token, vacation}: MutationFnProps) => fetcher('/api/vacation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
