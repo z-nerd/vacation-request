@@ -20,7 +20,20 @@ export async function POST(request: NextRequest) {
             if(user) {
                 const { _id, username, role, email, fullname, phone, joinDatetime, birthday } = user
 
-                return NextResponse.json({accessToken: getAccessToken({ username, role, _id, email, fullname, phone, joinDatetime, birthday })})
+                return NextResponse.json({
+                    accessToken: getAccessToken({ 
+                        username, role, _id, email, fullname, phone, joinDatetime, birthday }),
+                        userInfo: {
+                            _id, 
+                            fullname, 
+                            username, 
+                            role, 
+                            email, 
+                            phone, 
+                            birthday,
+                            joinDatetime, 
+                        } 
+                    })
             }
         }
     } catch (error: unknown) {

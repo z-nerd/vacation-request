@@ -16,7 +16,7 @@ export const Login = ({ }: LoginProp) => {
     const router = useRouter()
     const [loginResult, setLoginResult] = useState<ILoginResult | null>(null)
     const [loginError, setLoginError] = useState<any | null>(null)
-    const { setRefreshToken, setAccessToken } = useBrowserStorage()
+    const { setRefreshToken, setAccessToken, setUserInfo } = useBrowserStorage()
 
 
     return (
@@ -38,6 +38,7 @@ export const Login = ({ }: LoginProp) => {
                         OnResult={(data) => {
                             setAccessToken(data.accessToken)
                             setRefreshToken(data.refreshToken)
+                            setUserInfo(data.userInfo)
 
                             router.push('/')
                         }}

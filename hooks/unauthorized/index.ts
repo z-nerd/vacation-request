@@ -23,7 +23,7 @@ export const refreshApi = () => {
 
 export const useRefreshLogin = () => {
   const { data, mutate } = refreshApi()
-  const { refreshToken, setAccessToken } = useBrowserStorage()
+  const { refreshToken, setAccessToken, setUserInfo } = useBrowserStorage()
 
   useEffect(() => {
     if (refreshToken) {
@@ -32,7 +32,12 @@ export const useRefreshLogin = () => {
 
   }, [refreshToken])
 
-  useEffect(() => (data) && setAccessToken(data.accessToken), [data])
+  useEffect(() => {
+    if (data) {
+      setAccessToken(data.accessToken)
+      setUserInfo(data.userInfo)
+    }
+  }, [data])
 }
 
 

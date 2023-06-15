@@ -34,7 +34,7 @@ export class UserService extends BasicCrudService<IUser> {
             crudService: new CrudService(),
         }
     ) {
-        super({...userService})
+        super({ ...userService })
 
         this.#props = userService
     }
@@ -158,14 +158,14 @@ export class UserService extends BasicCrudService<IUser> {
     }
 
 
-    _2fa = async ({id, code}: {id: string, code: string}) => {
-        validation(Check2fa, {id, code})
+    _2fa = async ({ id, code }: { id: string, code: string }) => {
+        validation(Check2fa, { id, code })
 
         const _2faKey = this.#props.cache._2faNameSpace + ':' + id
         const opt = await this.#props.cache.redis.client.get(_2faKey)
-        
 
-        if(opt == code) {
+
+        if (opt == code) {
             const user = await this.#props.crudService.find<IUser>(
                 this.#props.dataBase,
                 this.#props.collection,
@@ -174,15 +174,27 @@ export class UserService extends BasicCrudService<IUser> {
                 }
             )
 
-            if(user) {
+            if (user) {
                 await this.#props.cache.redis.client.del(_2faKey)
 
                 const { _id, username, role, email, fullname, phone, joinDatetime, birthday } = user
-                
+
                 const accessToken = getAccessToken({ _id, username, role, email, fullname, phone, joinDatetime, birthday })
                 const refreshToken = getRefreshToken({ username })
-                
-                return { accessToken, refreshToken }
+
+                const userInfo = {
+                    _id,
+                    fullname,
+                    username,
+                    role,
+                    email,
+                    phone,
+                    birthday,
+                    joinDatetime,
+                }
+
+
+                return { userInfo, accessToken, refreshToken }
             }
         }
 
